@@ -2,6 +2,10 @@ namespace DinerFlow.User;
 
 public static class UserEndpoints
 {
+    // TODO: Implement Dto for all paths.
+    // Ensure we aren't sending over sensitive data.
+    // Be explicit with what is returned.
+    // Create a ToDto private static method.
     public static void MapUserEndpoints(this WebApplication app)
     {
         var userGroup = app.MapGroup("/users").WithTags("Users");
