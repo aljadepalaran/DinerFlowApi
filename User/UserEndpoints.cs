@@ -9,20 +9,37 @@ public static class UserEndpoints
         userGroup.MapGet("/", HandleGetAllUsers);
         userGroup.MapGet("/{id:int}", HandleGetUserById);
         userGroup.MapPost("/", HandleCreateUser);
+        userGroup.MapPut("/", HandleUpdateUser);
+        userGroup.MapPut("/{id:int}", HandleDeleteUser);
     }
 
-    private static async Task<string> HandleGetAllUsers(IUserRepository userRepository)
+    private static async Task<IResult> HandleGetAllUsers(IUserRepository userRepository)
     {
-        return "Hello world";
+        var users = await userRepository.GetAllUsersAsync();
+        return Results.Ok(users);
     }
 
-    private static void HandleGetUserById(IUserRepository userRepository)
+    private static async Task<IResult> HandleGetUserById(IUserRepository userRepository)
     {
-        
+        var user = await userRepository.GetUserByIdAsync(int id);
+        return user is null ? Results.NotFound() : Results.Ok(user);
     }
 
-    private static void HandleCreateUser(IUserRepository userRepository)
+    private static async Task<IResult> HandleCreateUser(IUserRepository userRepository)
     {
-        
+        var user = await userRepository.CreateUserAsync(null);
+        return Results.Ok(user);
+    }
+
+    private static async Task<IResult> HandleUpdateUser(IUserRepository userRepository)
+    {
+        var user = await userRepository.UpdateUserAsync(null);
+        return Results.Ok(user);
+    }
+
+    private static async Task<IResult> HandleDeleteUser(IUserRepository userRepository)
+    {
+        var result = await userRepository.DeleteUserAsync(int id);
+        return result ? Results.Ok() : Results.UnprocessableEntity();
     }
 }
