@@ -23,9 +23,9 @@ public static class UserEndpoints
         return Results.Ok(users);
     }
 
-    private static async Task<IResult> HandleGetUserById(IUserRepository userRepository)
+    private static async Task<IResult> HandleGetUserById(IUserRepository userRepository, int id)
     {
-        var user = await userRepository.GetUserByIdAsync(int id);
+        var user = await userRepository.GetUserByIdAsync(id);
         return user is null ? Results.NotFound() : Results.Ok(user);
     }
 
@@ -41,9 +41,9 @@ public static class UserEndpoints
         return Results.Ok(user);
     }
 
-    private static async Task<IResult> HandleDeleteUser(IUserRepository userRepository)
+    private static async Task<IResult> HandleDeleteUser(IUserRepository userRepository, int id)
     {
-        var result = await userRepository.DeleteUserAsync(int id);
+        var result = await userRepository.DeleteUserAsync(id);
         return result ? Results.Ok() : Results.UnprocessableEntity();
     }
 }
